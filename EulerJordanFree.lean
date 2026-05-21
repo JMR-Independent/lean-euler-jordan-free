@@ -60,7 +60,7 @@ theorem pos_iterate (d : Fin n) (k : ℕ) :
   induction k with
   | zero => simp
   | succ k ih =>
-    rw [pow_succ, Equiv.Perm.mul_apply, emb.same_vertex_same_pos, ih]
+    rw [pow_succ', Equiv.Perm.mul_apply, emb.same_vertex_same_pos, ih]
 
 end RotationEmbedding
 
