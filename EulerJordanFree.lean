@@ -171,15 +171,20 @@ def dual : CMap n where
       congrArg _ h
     simpa [mul_inv_rev, mul_assoc] using this
   edge_inv := by
-    intro d
-    -- edge⁻¹ ∘ edge⁻¹ = id, since edge⁻¹ = edge (because edge is involutive)
+    -- edge⁻¹ = edge (because edge is involutive)
     have h : M.edge⁻¹ = M.edge := by
-      ext d; rw [Equiv.Perm.inv_apply_self_iff]; exact M.edge_inv d
-    rw [h]; exact M.edge_inv d
+      apply Equiv.ext; intro d
+      apply M.edge.injective
+      rw [Equiv.Perm.apply_inv_self]
+      exact (M.edge_inv d).symm
+    rw [h]; exact M.edge_inv
   no_loop := by
     intro d
     have h : M.edge⁻¹ = M.edge := by
-      ext d; rw [Equiv.Perm.inv_apply_self_iff]; exact M.edge_inv d
+      apply Equiv.ext; intro d
+      apply M.edge.injective
+      rw [Equiv.Perm.apply_inv_self]
+      exact (M.edge_inv d).symm
     rw [h]; exact M.no_loop d
 
 /-- Dual face = inverse of original vertex (so cycle structures match up to direction). -/
