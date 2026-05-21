@@ -90,8 +90,6 @@ def Adjacent (d₁ d₂ : Fin n) : Prop := M.edge d₁ = d₂ ∨ M.edge d₂ = 
 /-- Vertex equivalence classes (the actual vertices of the CMap). -/
 def VertexClass : Type := Quotient (Equiv.Perm.SameCycle.setoid M.vertex)
 
-instance : DecidableEq M.VertexClass := Quotient.decidableEq
-
 /-- The vertex of a dart. -/
 def vertexOf (d : Fin n) : M.VertexClass := Quotient.mk _ d
 
