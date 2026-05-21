@@ -123,7 +123,7 @@ For V ≥ 2, building a spanning tree requires combinatorial work.
 -/
 def emptySpanningTree : M.SpanningTree where
   treeDarts := ∅
-  one_per_edge := by intro _ h; exact absurd h (Finset.not_mem_empty _)
+  one_per_edge := by intro _ h; simp at h
   spans := by intro _ _; exact ⟨[], by simp, trivial⟩
 
 /--
