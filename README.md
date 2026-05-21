@@ -1,21 +1,16 @@
-# Euler for planar combinatorial maps without Jordan curve theorem
+# Euler for planar graphs without Jordan curve theorem
 
-Experimental repo exploring whether the theorem
+Experimental Lean 4 + Mathlib repo trying to prove
 
-    geometric embedding of a planar graph ⟹ V - E + F = 2
+    geometric embedding of a graph ⟹ V - E + F = 2
 
-can be proved in Lean 4 + Mathlib without formalizing the Jordan curve
-theorem. The approach is Van Staudt's interdigitating spanning trees.
+without formalizing the Jordan curve theorem. Approach: Van Staudt's
+interdigitating dual spanning trees.
 
-Status: work in progress. The stable production version is at
-https://github.com/JMR-Independent/lean-euler-formula
+Self-contained: defines a minimal computable CombinatorialMap and
+builds the proof bottom-up.
 
-## Plan
-
-1. Block 1: RotationEmbedding with rotation system consistency
-2. Block 2: spanning tree of a CombinatorialMap
-3. Block 3: dual graph of a CombinatorialMap
-4. Block 4: Van Staudt argument closing the main theorem
+Stable production version: https://github.com/JMR-Independent/lean-euler-formula
 
 ## Build
 

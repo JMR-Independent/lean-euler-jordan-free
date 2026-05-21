@@ -1,12 +1,11 @@
 name = "euler-jordan-free"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["EulerMathlib", "CMapEuler", "Completeness", "IsPlanarIffIsSpherical", "GeometricEmbedding"]
+defaultTargets = ["EulerJordanFree"]
 
 [leanOptions]
 pp.unicode.fun = true
 relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
 
 [[require]]
@@ -15,16 +14,4 @@ scope = "leanprover-community"
 rev = "v4.29.1"
 
 [[lean_lib]]
-name = "EulerMathlib"
-
-[[lean_lib]]
-name = "CMapEuler"
-
-[[lean_lib]]
-name = "Completeness"
-
-[[lean_lib]]
-name = "IsPlanarIffIsSpherical"
-
-[[lean_lib]]
-name = "GeometricEmbedding"
+name = "EulerJordanFree"
