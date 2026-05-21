@@ -152,33 +152,44 @@ namespace CMap
 variable {n : ℕ} (M : CMap n)
 
 /--
-**Dual CMap**: swap vertex and face. The edge permutation stays.
-Group relation `face * edge * vertex = 1` becomes `vertex * edge * face = 1`
-(rearrangement of the same relation).
+**Dual CMap** (corrected): in a group, `a * b * c = 1` does NOT imply
+`c * b * a = 1`. So the naive swap of vertex and face is not a CMap.
+
+The correct dual uses inverses: vertex_dual = face⁻¹, edge_dual = edge⁻¹,
+face_dual = vertex⁻¹. Then the relation rotates correctly.
 -/
 def dual : CMap n where
-  vertex := M.face
-  edge := M.edge
-  face := M.vertex
+  vertex := M.face⁻¹
+  edge   := M.edge⁻¹
+  face   := M.vertex⁻¹
   rel := by
-    -- Need: vertex' * edge' * face' = 1, i.e. M.vertex * M.edge * M.face = 1
-    -- We have: M.face * M.edge * M.vertex = 1
-    -- These are cyclic rearrangements of each other (in a group with our relation)
+    -- Need: face_d * edge_d * vertex_d = 1
+    -- i.e.  M.vertex⁻¹ * M.edge⁻¹ * M.face⁻¹ = 1
+    -- That equals (M.face * M.edge * M.vertex)⁻¹ = 1⁻¹ = 1
     have h := M.rel
-    -- M.face * M.edge * M.vertex = 1
-    -- ⟹ M.face = (M.vertex)⁻¹ * (M.edge)⁻¹  (after manipulation)
-    -- Then M.vertex * M.edge * M.face = M.vertex * M.edge * (M.vertex)⁻¹ * (M.edge)⁻¹
-    -- This is conjugation, not identity in general. So dual isn't literally a CMap
-    -- unless we adjust the definitions. For now, leave as sorry.
-    sorry
-  edge_inv := M.edge_inv
-  no_loop := M.no_loop
+    have : (M.face * M.edge * M.vertex)⁻¹ = (1 : Equiv.Perm (Fin n))⁻¹ :=
+      congrArg _ h
+    simpa [mul_inv_rev, mul_assoc] using this
+  edge_inv := by
+    intro d
+    -- edge⁻¹ ∘ edge⁻¹ = id, since edge⁻¹ = edge (because edge is involutive)
+    have h : M.edge⁻¹ = M.edge := by
+      ext d; rw [Equiv.Perm.inv_apply_self_iff]; exact M.edge_inv d
+    rw [h]; exact M.edge_inv d
+  no_loop := by
+    intro d
+    have h : M.edge⁻¹ = M.edge := by
+      ext d; rw [Equiv.Perm.inv_apply_self_iff]; exact M.edge_inv d
+    rw [h]; exact M.no_loop d
 
-/-- Dual face = original vertex. -/
-theorem dual_face : M.dual.face = M.vertex := rfl
+/-- Dual face = inverse of original vertex (so cycle structures match up to direction). -/
+theorem dual_face : M.dual.face = M.vertex⁻¹ := rfl
 
-/-- Dual vertex = original face. -/
-theorem dual_vertex : M.dual.vertex = M.face := rfl
+/-- Dual vertex = inverse of original face. -/
+theorem dual_vertex : M.dual.vertex = M.face⁻¹ := rfl
+
+/-- Inverse permutations have the same cycle structure (and hence same orbit count). -/
+theorem dual_edge_inv : M.dual.edge = M.edge⁻¹ := rfl
 
 end CMap
 
