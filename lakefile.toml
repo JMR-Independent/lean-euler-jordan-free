@@ -1,7 +1,7 @@
 name = "euler-jordan-free"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["EulerMathlib", "CMapEuler", "GeometricEmbedding"]
+defaultTargets = ["EulerMathlib", "CMapEuler", "Completeness", "IsPlanarIffIsSpherical", "GeometricEmbedding"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -19,6 +19,12 @@ name = "EulerMathlib"
 
 [[lean_lib]]
 name = "CMapEuler"
+
+[[lean_lib]]
+name = "Completeness"
+
+[[lean_lib]]
+name = "IsPlanarIffIsSpherical"
 
 [[lean_lib]]
 name = "GeometricEmbedding"
