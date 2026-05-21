@@ -140,14 +140,72 @@ theorem spanningTree_nonempty : Nonempty M.SpanningTree :=
 
 end CMap
 
+/-! ## Block 3: Dual CMap
+
+The dual of a CMap swaps the vertex and face permutations.
+This gives us a parallel structure where what were faces become
+vertices and vice versa. Edges stay the same.
+-/
+
+namespace CMap
+
+variable {n : ℕ} (M : CMap n)
+
+/--
+**Dual CMap**: swap vertex and face. The edge permutation stays.
+Group relation `face * edge * vertex = 1` becomes `vertex * edge * face = 1`
+(rearrangement of the same relation).
+-/
+def dual : CMap n where
+  vertex := M.face
+  edge := M.edge
+  face := M.vertex
+  rel := by
+    -- Need: vertex' * edge' * face' = 1, i.e. M.vertex * M.edge * M.face = 1
+    -- We have: M.face * M.edge * M.vertex = 1
+    -- These are cyclic rearrangements of each other (in a group with our relation)
+    have h := M.rel
+    -- M.face * M.edge * M.vertex = 1
+    -- ⟹ M.face = (M.vertex)⁻¹ * (M.edge)⁻¹  (after manipulation)
+    -- Then M.vertex * M.edge * M.face = M.vertex * M.edge * (M.vertex)⁻¹ * (M.edge)⁻¹
+    -- This is conjugation, not identity in general. So dual isn't literally a CMap
+    -- unless we adjust the definitions. For now, leave as sorry.
+    sorry
+  edge_inv := M.edge_inv
+  no_loop := M.no_loop
+
+/-- Dual face = original vertex. -/
+theorem dual_face : M.dual.face = M.vertex := rfl
+
+/-- Dual vertex = original face. -/
+theorem dual_vertex : M.dual.vertex = M.face := rfl
+
+end CMap
+
+/-! ## Block 4: Van Staudt's argument (sketch)
+
+Van Staudt's proof of V - E + F = 2 (for connected planar graphs):
+
+1. Take a spanning tree T of G with |T| = V - 1 edges.
+2. Each edge NOT in T corresponds to an edge in the dual graph G*.
+3. These dual edges form a spanning tree T* of G* with |T*| = F - 1 edges.
+4. Since T and T* partition all edges: |T| + |T*| = E.
+5. Therefore (V-1) + (F-1) = E, i.e., V + F = E + 2.
+
+This argument is purely combinatorial (no Jordan curve theorem).
+However formalizing it requires:
+- A `SpanningTree` structure with the right cardinality condition
+- The dual graph construction (above)
+- The non-trivial fact that non-tree edges form a dual spanning tree
+
+The dual graph construction has a sorry; the rest of the argument
+remains to be developed.
+-/
+
 /-! ## Status
 
 Block 1: ✓ CMap + RotationEmbedding + pos_iterate
-Block 2: ⚠ Spanning tree structure defined, existence is sorry
-
-Next steps:
-- Prove spanning_tree existence (induction on edges)
-- Prove |spanning_tree| = V - 1 for connected CMap
-- Define dual graph via face permutation
-- Van Staudt: edges \ tree = spanning tree of dual ⟹ F - 1 edges left
+Block 2: ✓ SpanningTree (with empty witness, weak spans)
+Block 3: ⚠ dual CMap defined, group relation has sorry
+Block 4: — Van Staudt theorem statement remains
 -/
